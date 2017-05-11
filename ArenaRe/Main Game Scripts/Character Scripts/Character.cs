@@ -74,7 +74,9 @@ namespace ArenaRe
         internal float yPosition;
 
         public Character()
-        {           
+        {
+            initialize();
+            CharacterCreator.distributePoints(this);
         }
 
         /// <summary>

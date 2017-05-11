@@ -10,7 +10,7 @@ namespace ArenaRe
     {
         public MainMenu()
         {
-            processMenuChoice(displayMenu());
+            displayMenu();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ Welcome to Revelation Motherfucker
             switch(choice)
             {
                 case 1:
-                    BattleMenu mainGame = new BattleMenu();
+                    Character c = new Character();
                     break;
 
                 case 2:

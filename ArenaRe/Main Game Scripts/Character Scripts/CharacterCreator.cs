@@ -41,9 +41,18 @@ namespace ArenaRe
             return enemy;
         }
 
-        private static void distributePoints(Character character)
+        internal static void distributePoints(Character character)
         {
-            
+            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+            Skills[] skillList = character.GetType().GetFields(flags).Where(f => f.FieldType == typeof(Skills)).Select(f => (Skills)f.GetValue(character)).ToArray();
+
+            Console.WriteLine(skillList.Length + " Printing list of skills");
+            for (int i = 0; i < skillList.Length; i++)
+            {
+                Console.WriteLine((i + 1) + ": " + skillList[i].name);
+            }
+
+            Console.ReadLine();
         }
     }
 }
