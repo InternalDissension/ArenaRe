@@ -29,7 +29,7 @@ namespace ArenaRe
         internal int arenaXMinus;
 
         /// <summary>
-        /// The list of positions the arena contains
+        /// The list of positions the arena contains and what objects occupy them
         /// </summary>
         IDictionary<PositionClass, Object> positions;
 

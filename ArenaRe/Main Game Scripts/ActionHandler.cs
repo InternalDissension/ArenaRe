@@ -53,9 +53,9 @@ namespace ArenaRe
         static internal bool calcMoveChance(Character character, Character target)
         {
             float moveChance = 50 
-                + ((character.curInitiative - target.curReaction) 
-                + (character.curStrength - target.curStrength)
-                + (character.curSpeed - target.curSpeed));
+                + ((character.initiative.currentLevel - target.reaction.currentLevel) 
+                + (character.strength.currentLevel - target.strength.currentLevel)
+                + (character.speed.currentLevel - target.speed.currentLevel));
 
             if (Helper.randomValue(1, 101) <= moveChance)
                 return true;
@@ -72,9 +72,11 @@ namespace ArenaRe
         static internal bool calcMoveFailRecover(Character character, Character target)
         {
             float recoverChance = 50 
-                + (((character.curReaction / 2) - (target.curInitiative + target.curReaction / 4))
-                + (character.curStrength - target.curStrength)
-                + (character.curSpeed - target.curSpeed));
+                + (((character.reaction.currentLevel / 2) 
+                - (target.initiative.currentLevel 
+                + target.reaction.currentLevel / 4))
+                + (character.strength.currentLevel - target.strength.currentLevel)
+                + (character.speed.currentLevel - target.speed.currentLevel));
 
             if (Helper.randomValue(1, 101) <= recoverChance)
                 return true;
@@ -92,8 +94,8 @@ namespace ArenaRe
         static internal int calcPunish(Character character, Character target)
         {
             float punishChance = 50 + 
-                ((character.curWisdom + character.curReaction) 
-                - (target.curWisdom + target.curReaction));
+                ((character.wisdom.currentLevel + character.reaction.currentLevel) 
+                - (target.wisdom.currentLevel + target.reaction.currentLevel));
 
             if (Helper.randomValue(1,101) <= punishChance)
             {

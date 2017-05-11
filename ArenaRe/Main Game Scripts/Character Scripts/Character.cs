@@ -13,27 +13,85 @@ namespace ArenaRe
     class Character : Object
     {
 
+        /// <summary>
+        /// The skill points the entity can spend on increasing skills
+        /// </summary>
         internal int skillPoints;
-        internal int abilityPoints;
-        
-        internal List<Abilities> spells;
-        internal List<Skills> skills;
 
+        /// <summary>
+        /// The ability points the entity can spend on learning abilities
+        /// </summary>
+        internal int abilityPoints;
+
+        /// <summary>
+        /// The list of abilities the entity can use
+        /// </summary>
+        internal List<Abilities> spells;
+
+        /// <summary>
+        /// Determines move order and number of actions per turn
+        /// </summary>
+        internal Skills initiative;
+
+        /// <summary>
+        /// Determines movement distance and influences reaction
+        /// </summary>
+        internal Skills speed;
+
+        /// <summary>
+        /// Determines the amount of abilities an entity can cast
+        /// </summary>
+        internal Skills magic;
+
+        /// <summary>
+        /// Determines the likelihood of gaining counter actions
+        /// </summary>
+        internal Skills reaction;
+
+        /// <summary>
+        /// Determines how much xp an entity gets for using abilities
+        /// </summary>
+        internal Skills intelligence;
+
+        /// <summary>
+        /// Determines how well an entity can alter the momentum of a battle
+        /// </summary>
+        internal Skills wisdom;
+
+        /// <summary>
+        /// Determines how likely an entity is to notice the environment
+        /// </summary>
+        internal Skills awareness;
+
+        /// <summary>
+        /// The x location of the entity on the arena grid
+        /// </summary>
         internal float xPosition;
+
+        /// <summary>
+        /// The y location of the entity on the arena grid
+        /// </summary>
         internal float yPosition;
 
         public Character()
-        {
-           
-            
+        {           
         }
 
+        /// <summary>
+        /// Initializes the character
+        /// </summary>
         private void initialize()
         {
-            skills = Skills.getSkills();
-            skills.Find(s => s.name == "Health").currentLevel = 100;
-            skills.Find(s => s.name == "Magic").currentLevel = 50;
+            this.health = new Skills("Health", 100);
+            this.strength = new Skills("Strength");
 
+            magic = new Skills("Magic", 50);
+            speed = new Skills("Speed");
+            intelligence = new Skills("Intelligence");
+            reaction = new Skills("Reaction");
+            initiative = new Skills("Initiative");
+            awareness = new Skills("Awareness");
+            wisdom = new Skills("Wisdom");
         }
 
         /// <summary>

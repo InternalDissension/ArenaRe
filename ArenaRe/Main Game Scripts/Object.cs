@@ -16,25 +16,15 @@ namespace ArenaRe
         /// The name of the entity
         /// </summary>
         internal string name;
-        
-        /// <summary>
-        /// The maximum health of an entity
-        /// </summary>
-        internal int health;
 
         /// <summary>
-        /// The current health of an entity
+        /// The health of an entity
         /// </summary>
-        internal int curHealth;
+        internal Skills health;
 
         /// <summary>
-        /// The total strength of an entity
+        /// The strength of an entity
         /// </summary>
-        internal int strength;
-        
-        /// <summary>
-        /// The current strength of an entity
-        /// </summary>
-        internal int curStrength;
+        internal Skills strength;
     }
 }

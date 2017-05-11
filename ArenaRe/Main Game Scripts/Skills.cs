@@ -32,6 +32,10 @@ namespace ArenaRe
         /// </summary>
         internal int maxLevel;
 
+        /// <summary>
+        /// Creates a new skill by name and gives it a value of 5.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public Skills(string name)
         {
             this.name = name;
@@ -40,30 +44,21 @@ namespace ArenaRe
             maxLevel = 1000;
         }
 
-        public Skills()
+        /// <summary>
+        /// Creates a new skill by name and sets its value to curLevel
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="curLevel">The current level.</param>
+        public Skills(string name, int curLevel)
         {
-
+            this.name = name;
+            currentLevel = curLevel;
+            normalLevel = curLevel;
+            maxLevel = 1000;
         }
 
-        /// <summary>
-        /// Initialize all skills used in the game and return the list
-        /// </summary>
-        /// <returns></returns>
-        static internal List<Skills> getSkills()
+        public Skills()
         {
-            List<Skills> skills = new List<Skills>();
-
-            skills.Add(new Skills("Health"));
-            skills.Add(new Skills("Magic"));
-            skills.Add(new Skills("Speed"));
-            skills.Add(new Skills("Strength"));
-            skills.Add(new Skills("Intelligence"));
-            skills.Add(new Skills("Initiative"));
-            skills.Add(new Skills("Reaction"));
-            skills.Add(new Skills("Awareness"));
-            skills.Add(new Skills("Wisdom"));
-
-            return skills;
         }
     }
 }
