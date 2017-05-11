@@ -10,7 +10,7 @@ namespace ArenaRe
     /// This class keeps track of all skills in the game.
     /// Add new skills to the getSkills method
     /// </summary>
-    class Skills
+    class Skill
     {
         /// <summary>
         /// The name of the skill
@@ -36,7 +36,7 @@ namespace ArenaRe
         /// Creates a new skill by name and gives it a value of 5.
         /// </summary>
         /// <param name="name">The name.</param>
-        public Skills(string name)
+        public Skill(string name)
         {
             this.name = name;
             currentLevel = 5;
@@ -49,7 +49,7 @@ namespace ArenaRe
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="curLevel">The current level.</param>
-        public Skills(string name, int curLevel)
+        public Skill(string name, int curLevel)
         {
             this.name = name;
             currentLevel = curLevel;
@@ -57,7 +57,7 @@ namespace ArenaRe
             maxLevel = 1000;
         }
 
-        public Skills()
+        public Skill()
         {
         }
     }

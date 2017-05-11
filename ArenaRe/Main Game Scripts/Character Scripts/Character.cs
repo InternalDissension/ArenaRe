@@ -24,46 +24,6 @@ namespace ArenaRe
         internal int abilityPoints;
 
         /// <summary>
-        /// The list of abilities the entity can use
-        /// </summary>
-        internal List<Abilities> spells;
-
-        /// <summary>
-        /// Determines move order and number of actions per turn
-        /// </summary>
-        internal Skills initiative;
-
-        /// <summary>
-        /// Determines movement distance and influences reaction
-        /// </summary>
-        internal Skills speed;
-
-        /// <summary>
-        /// Determines the amount of abilities an entity can cast
-        /// </summary>
-        internal Skills magic;
-
-        /// <summary>
-        /// Determines the likelihood of gaining counter actions
-        /// </summary>
-        internal Skills reaction;
-
-        /// <summary>
-        /// Determines how much xp an entity gets for using abilities
-        /// </summary>
-        internal Skills intelligence;
-
-        /// <summary>
-        /// Determines how well an entity can alter the momentum of a battle
-        /// </summary>
-        internal Skills wisdom;
-
-        /// <summary>
-        /// Determines how likely an entity is to notice the environment
-        /// </summary>
-        internal Skills awareness;
-
-        /// <summary>
         /// The x location of the entity on the arena grid
         /// </summary>
         internal float xPosition;
@@ -73,27 +33,40 @@ namespace ArenaRe
         /// </summary>
         internal float yPosition;
 
+        /// <summary>
+        /// The list of abilities the entity can use
+        /// </summary>
+        internal List<Ability> spells;
+
         public Character()
         {
-            initialize();
-            CharacterCreator.distributePoints(this);
+            intializeSkills();
+            //CharacterCreator.distributeSkillPoints(this);
+            CharacterCreator.distributeAbilityPoints(this);
         }
 
         /// <summary>
-        /// Initializes the character
+        /// Initializes the skills of the character
         /// </summary>
-        private void initialize()
+        private void intializeSkills()
         {
-            this.health = new Skills("Health", 100);
-            this.strength = new Skills("Strength");
+            this.health = new Skill("Health", 100);
+            this.strength = new Skill("Strength");
 
-            magic = new Skills("Magic", 50);
-            speed = new Skills("Speed");
-            intelligence = new Skills("Intelligence");
-            reaction = new Skills("Reaction");
-            initiative = new Skills("Initiative");
-            awareness = new Skills("Awareness");
-            wisdom = new Skills("Wisdom");
+            magic = new Skill("Magic", 50);
+            speed = new Skill("Speed");
+            intelligence = new Skill("Intelligence");
+            reaction = new Skill("Reaction");
+            initiative = new Skill("Initiative");
+            awareness = new Skill("Awareness");
+            wisdom = new Skill("Wisdom");
+        }
+
+        /// <summary>
+        /// Initializes the abilities of the character
+        /// </summary>
+        private void initializeAbilities()
+        {
         }
 
         /// <summary>
@@ -101,9 +74,9 @@ namespace ArenaRe
         /// This should only be performed once during runtime
         /// </summary>
         /// <returns></returns>
-        public Abilities[] getAllAbilities()
+        public Ability[] getAllAbilities()
         {
-            IEnumerable<Abilities> abilities = typeof(Abilities).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Abilities)) && !t.IsAbstract).Select(t => (Abilities)Activator.CreateInstance(t));
+            IEnumerable<Ability> abilities = typeof(Ability).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Ability)) && !t.IsAbstract).Select(t => (Ability)Activator.CreateInstance(t));
             return abilities.ToArray();
         }
     }

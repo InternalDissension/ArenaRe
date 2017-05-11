@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ArenaRe
 {
@@ -41,15 +42,29 @@ namespace ArenaRe
             return enemy;
         }
 
-        internal static void distributePoints(Character character)
+        internal static void distributeSkillPoints(Character character)
         {
             System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
-            Skills[] skillList = character.GetType().GetFields(flags).Where(f => f.FieldType == typeof(Skills)).Select(f => (Skills)f.GetValue(character)).ToArray();
+            Skill[] skillList = character.GetType().GetFields(flags).Where(f => f.FieldType == typeof(Skill)).Select(f => (Skill)f.GetValue(character)).ToArray();
 
             Console.WriteLine(skillList.Length + " Printing list of skills");
             for (int i = 0; i < skillList.Length; i++)
             {
                 Console.WriteLine((i + 1) + ": " + skillList[i].name);
+            }
+
+            Console.ReadLine();
+        }
+
+        internal static void distributeAbilityPoints(Character character)
+        {
+            Type a = typeof(AbilityList);
+            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic;
+            Ability[] abilityList = a.GetFields(flags).Where(f => f.FieldType == typeof(Ability)).Select(f => (Ability)f.GetValue(a)).ToArray();
+
+            for (int i = 0; i < abilityList.Length; i++)
+            {
+                Console.WriteLine((i + 1) + ": " + abilityList[i].spellName);
             }
 
             Console.ReadLine();

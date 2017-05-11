@@ -20,11 +20,46 @@ namespace ArenaRe
         /// <summary>
         /// The health of an entity
         /// </summary>
-        internal Skills health;
+        internal Skill health;
+
+        /// <summary>
+        /// Determines the amount of abilities an entity can cast
+        /// </summary>
+        internal Skill magic;
 
         /// <summary>
         /// The strength of an entity
         /// </summary>
-        internal Skills strength;
+        internal Skill strength;
+
+        /// <summary>
+        /// Determines move order and number of actions per turn
+        /// </summary>
+        internal Skill initiative;
+
+        /// <summary>
+        /// Determines movement distance and influences reaction
+        /// </summary>
+        internal Skill speed;
+
+        /// <summary>
+        /// Determines the likelihood of gaining counter actions
+        /// </summary>
+        internal Skill reaction;
+
+        /// <summary>
+        /// Determines how much xp an entity gets for using abilities
+        /// </summary>
+        internal Skill intelligence;
+
+        /// <summary>
+        /// Determines how well an entity can alter the momentum of a battle
+        /// </summary>
+        internal Skill wisdom;
+
+        /// <summary>
+        /// Determines how likely an entity is to notice the environment
+        /// </summary>
+        internal Skill awareness;
     }
 }
