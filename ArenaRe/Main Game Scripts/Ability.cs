@@ -11,7 +11,7 @@ namespace ArenaRe
         /// <summary>
         /// Name of the spell
         /// </summary>
-        internal string spellName
+        internal string name
         {
             get;
         }
@@ -91,7 +91,7 @@ namespace ArenaRe
         /// <param name="healthCost">The health cost</param>
         public Ability(string name, float difficulty, int strength, int manaCost, int healthCost, int acquireCost)
         {
-            spellName = name;
+            this.name = name;
             castDifficulty = difficulty;
             this.strength = strength;
             this.manaCost = manaCost;

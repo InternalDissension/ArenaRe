@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace ArenaRe
 {
     /// <summary>
-    /// Responsible for initializing characters
+    /// Contains functions for initializing skills and adding abilities to characters
     /// </summary>
     class CharacterCreator
     {
@@ -25,7 +25,6 @@ namespace ArenaRe
         /// <returns></returns>
         internal static Character Initialize(Character character, bool player)
         {
-
             character.addSkillPoint(20);
             character.addAbilityPoint(5);
 
@@ -37,7 +36,7 @@ namespace ArenaRe
         /// </summary>
         /// <param name="enemy">The enemy.</param>
         /// <param name="player">The player.</param>
-        private Character CreateEnemy(Character enemy)
+        private Character CreateEnemy(Character enemy, Character player)
         {
             return enemy;
         }
@@ -60,7 +59,7 @@ namespace ArenaRe
         {
             for (int i = 0; i < character.spells.Count; i++)
             {
-                Console.WriteLine((i + 1) + ": " + character.spells[i].spellName);
+                Console.WriteLine((i + 1) + ": " + character.spells[i].name);
             }
 
             Console.ReadLine();
@@ -84,53 +83,38 @@ namespace ArenaRe
             //Gets every ability that has been created in AbilityList
             Ability[] abilityList = a.GetFields(flags).Where(f => f.FieldType == typeof(Ability)).Select(f => (Ability)f.GetValue(a)).ToArray();
 
-            //Iterate through abilityList variable
+            //Iterate through abilityList variable and list all ability names
             for (int i = 0; i < abilityList.Length; i++)
             {
                 if (!character.spells.Contains(abilityList[i]))     //If the character doesn't have the ability
-                    Console.WriteLine((i + 1) + ": " + abilityList[i].spellName);   //List it
+                    Console.WriteLine((i + 1) + ": " + abilityList[i].name);   //List it
             }
 
-            int choice = 0; //Initialize choice variable
+            int choice = Helper.processChoice();
 
-            //Try to convert the user input into a number
             try
             {
-                choice = int.Parse(Console.ReadLine()) - 1;
+                //Output choice to the user
+                Console.WriteLine("Are you sure you want to add: " + abilityList[choice] + "? (y/n)");
             }
 
-            //If the input is not a number, output a message to the user and recursively call the function
             catch
             {
-                Console.WriteLine("Invalid input. Input must be numerical");
-                Console.ReadLine();
+                DebugLog.invalidInputError(choice + " is not a valid input");
                 choice = addNewAbility(character);
             }
-
-            //Output choice to the user
-            Console.WriteLine("Are you sure you want to add: " + abilityList[choice] + "? (y/n)");
 
             //If user enters y
             if (Console.ReadLine() == "y")
 
-                //Try to add the ability choice that the user input
-                try
-                {
-                    //If the user has enough ability points to acquire the ability, add it
-                    if (character.getAbilityPoints >= abilityList[choice].acquireCost)
-                        character.spells.Add(abilityList[choice]);
+                //If the user has enough ability points to acquire the ability, add it
+                if (character.getAbilityPoints >= abilityList[choice].acquireCost)
+                    character.spells.Add(abilityList[choice]);
 
-                    //Otherwise let the user know that they have insufficient points
-                    else
-                        Console.WriteLine("Not enough ability points");
-                }
-
-                //If the ability choice is invalid, output a message and recursively call the function
-                catch
-                {
-                    DebugLog.Log(DebugLog.invalidInputError, "The choice input does not exist.");
-                    choice = addNewAbility(character);
-                }
+                //Otherwise let the user know that they have insufficient points
+                else
+                    Console.WriteLine("Not enough ability points");
+            //Else recall the function
             else
                 choice = addNewAbility(character);
 

@@ -59,5 +59,32 @@ namespace ArenaRe
 
             return true;
         }
+
+        /// <summary>
+        /// Processes the choice of the user. Returns the number pressed - 1 (user enters 1, returns 0)
+        /// </summary>
+        /// <returns></returns>
+        internal static int processChoice()
+        {
+            int choice = 0;
+
+            try
+            {
+                choice = int.Parse(Console.ReadLine()) - 1;
+            }
+
+            catch
+            {
+                DebugLog.invalidInputError("Input must me numerical");
+                choice = processChoice();
+            }
+
+            return choice;
+        }
+
+        internal static void confirmChoice(string choiceName)
+        {
+
+        }
     }
 }
