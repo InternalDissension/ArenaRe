@@ -48,6 +48,11 @@ namespace ArenaRe
             get;
         }
 
+        internal int acquireCost
+        {
+            get;
+        }
+
         /// <summary>
         /// How much experience does the entity have in this spell?
         /// </summary>
@@ -84,13 +89,14 @@ namespace ArenaRe
         /// <param name="strength">The strength</param>
         /// <param name="manaCost">The mana cost</param>
         /// <param name="healthCost">The health cost</param>
-        public Ability(string name, float difficulty, int strength, int manaCost, int healthCost)
+        public Ability(string name, float difficulty, int strength, int manaCost, int healthCost, int acquireCost)
         {
             spellName = name;
             castDifficulty = difficulty;
             this.strength = strength;
             this.manaCost = manaCost;
             this.healthCost = healthCost;
+            this.acquireCost = acquireCost;
         }
 
         internal Ability addXPToAbility(Ability ability, int xp)

@@ -8,6 +8,6 @@ namespace ArenaRe
 {
     static class AbilityList
     {
-        internal static Ability fireball = new Ability("Fireball", 1.0f, 5, 10, 0);
+        internal static Ability fireball = new Ability("Fireball", 1.0f, 5, 10, 0, 1);
     }
 }

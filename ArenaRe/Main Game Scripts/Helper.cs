@@ -42,5 +42,22 @@ namespace ArenaRe
         {
             return random.Next(min, max);
         }
+
+        internal static bool tryParse()
+        {
+            int choice = 0;
+
+            try
+            {
+                choice =int.Parse(Console.ReadLine());
+            }
+
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

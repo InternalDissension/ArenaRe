@@ -91,7 +91,7 @@ namespace ArenaRe
                 return positions[position];
 
             //Print the given position to the console if debugging and return null
-            DebugLog.Log(s => DebugLog.NoObjectAtPosition(position.getXPosition + "|" + position.getYPosition) );
+            DebugLog.Log(DebugLog.NoObjectAtPositionLog, position.getXPosition.ToString() + position.getYPosition.ToString());
             return null;
         }
 
