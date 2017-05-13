@@ -43,8 +43,8 @@ namespace ArenaRe
 
         internal static void distributeSkillPoints(Character character)
         {
-            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
-            Skill[] skillList = character.GetType().GetFields(flags).Where(f => f.FieldType == typeof(Skill)).Select(f => (Skill)f.GetValue(character)).ToArray();
+
+            Skill[] skillList = Helper.getCharacterSkillList(character);
 
             Console.WriteLine(skillList.Length + " Printing list of skills");
             for (int i = 0; i < skillList.Length; i++)
@@ -73,15 +73,7 @@ namespace ArenaRe
         /// <returns></returns>
         internal static int addNewAbility(Character character)
         {
-            //Used to get the fields in AbilityList.cs
-            Type a = typeof(AbilityList);
-
-            //Used to correctly identify the access modifiers in AbilityList
-            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Static 
-                | System.Reflection.BindingFlags.NonPublic;
-
-            //Gets every ability that has been created in AbilityList
-            Ability[] abilityList = a.GetFields(flags).Where(f => f.FieldType == typeof(Ability)).Select(f => (Ability)f.GetValue(a)).ToArray();
+            Ability[] abilityList = Helper.getAbilityList();
 
             //Iterate through abilityList variable and list all ability names
             for (int i = 0; i < abilityList.Length; i++)

@@ -19,9 +19,29 @@ namespace ArenaRe
         private int skillPoints;
 
         /// <summary>
+        /// The total amount of skill points the entity has been awarded throughout the game.
+        /// </summary>
+        private int skillPointTotal;
+
+        /// <summary>
         /// The ability points the entity can spend on learning abilities
         /// </summary>
         private int abilityPoints;
+
+        /// <summary>
+        /// The total amount of ability points the entity has been awarded throughout the game.
+        /// </summary>
+        private int abilityPointTotal;
+
+        /// <summary>
+        /// The amount of xp required to get another skill point
+        /// </summary>
+        internal int skillXP;
+
+        /// <summary>
+        /// The amount of xp required to get another ability point
+        /// </summary>
+        internal int abilityXP;
 
         /// <summary>
         /// The x location of the entity on the arena grid
@@ -87,6 +107,7 @@ namespace ArenaRe
         internal void addSkillPoint(int value = 1)
         {
             skillPoints += value;
+            skillPointTotal += value;
         }
 
         /// <summary>
@@ -96,6 +117,7 @@ namespace ArenaRe
         internal void addAbilityPoint(int value = 1)
         {
             abilityPoints+= value;
+            abilityPointTotal += value;
         }
 
         /// <summary>
@@ -116,26 +138,17 @@ namespace ArenaRe
 
         public Character()
         {
-            intializeSkills();
+            initializeSkills();
             //CharacterCreator.distributeSkillPoints(this);
-            CharacterCreator.distributeAbilityPoints(this);
-        }
-
-        /// <summary>
-        /// Initializes the skills of the character
-        /// </summary>
-        private void intializeSkills()
-        {
-            this.health = new Skill("Health", 100);
-            this.strength = new Skill("Strength");
-
-            magic = new Skill("Magic", 50);
-            speed = new Skill("Speed");
-            intelligence = new Skill("Intelligence");
-            reaction = new Skill("Reaction");
-            initiative = new Skill("Initiative");
-            awareness = new Skill("Awareness");
-            wisdom = new Skill("Wisdom");
+            //CharacterCreator.distributeAbilityPoints(this);
+            StatViewer.viewSkills(this);
+            Helper.space(3);
+            spells = new List<Ability>();
+            AbilityList.InitializeAbilityList();
+            spells.Add(AbilityList.testSpell);
+            spells.Add(AbilityList.fireball);
+            StatViewer.viewAbilities(this);
+            Console.ReadLine();
         }
 
         /// <summary>

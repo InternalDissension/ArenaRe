@@ -86,5 +86,52 @@ namespace ArenaRe
         {
 
         }
+
+        /// <summary>
+        /// Returns the skills of a character in an array
+        /// </summary>
+        /// <param name="character">The character.</param>
+        /// <returns></returns>
+        internal static Skill[] getCharacterSkillList(Character character)
+        {
+            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+            return character.GetType().GetFields(flags).Where(f => f.FieldType == typeof(Skill)).Select(f => (Skill)f.GetValue(character)).ToArray();
+        }
+
+        /// <summary>
+        /// Returns all skills in an array
+        /// </summary>
+        /// <returns></returns>
+        internal static Skill[] getAllSkillList()
+        {
+            Type t = typeof(Object);
+
+            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.NonPublic;
+
+            return t.GetFields(flags).Where(f => f.FieldType == typeof(Skill)).Select(f => (Skill)f.GetValue(t)).ToArray();
+        }
+
+        internal static Ability[] getAbilityList()
+        {
+            //Used to get the fields in AbilityList.cs
+            Type a = typeof(AbilityList);
+
+            //Used to correctly identify the access modifiers in AbilityList
+            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Static
+                | System.Reflection.BindingFlags.NonPublic;
+
+            //Gets every ability that has been created in AbilityList
+            return a.GetFields(flags).Where(f => f.FieldType == typeof(Ability)).Select(f => (Ability)f.GetValue(a)).ToArray();
+        }
+
+        /// <summary>
+        /// Spaces the text vertically by number of spaces. 0 Will go to next line
+        /// </summary>
+        /// <param name="numOfSpaces">The number of spaces.</param>
+        internal static void space(int numOfSpaces)
+        {
+            for (int i = 0; i < numOfSpaces + 1; i++)
+                Console.WriteLine();
+        }
     }
 }

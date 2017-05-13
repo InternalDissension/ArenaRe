@@ -10,6 +10,7 @@ namespace ArenaRe
     {
         public MainMenu()
         {
+            Object obj = new Object();
             displayMenu();
         }
 

@@ -33,6 +33,17 @@ namespace ArenaRe
         }
 
         /// <summary>
+        /// What skills, if any, does the ability enhance.
+        /// </summary>
+        /// <value>
+        /// The skill enhance.
+        /// </value>
+        internal Skill[] skillEnhance
+        {
+            get;
+        }
+
+        /// <summary>
         /// How much mana does the spell cost?
         /// </summary>
         internal int manaCost
@@ -48,7 +59,46 @@ namespace ArenaRe
             get;
         }
 
+        /// <summary>
+        /// How many abilityPoints are required to get the ability
+        /// </summary>
+        /// <value>
+        /// The acquire cost.
+        /// </value>
         internal int acquireCost
+        {
+            get;
+        }
+
+        /// <summary>
+        /// How many turns the ability lasts. 0 for instant cast
+        /// </summary>
+        /// <value>
+        /// The duration.
+        /// </value>
+        internal int duration
+        {
+            get;
+        }
+
+        /// <summary>
+        /// How many turns before the spell becomes active
+        /// </summary>
+        /// <value>
+        /// The build up.
+        /// </value>
+        internal int buildUp
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Is the ability passive or does it require activating
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if passive; otherwise, <c>false</c>.
+        /// </value>
+        internal bool passive
         {
             get;
         }
@@ -89,7 +139,8 @@ namespace ArenaRe
         /// <param name="strength">The strength</param>
         /// <param name="manaCost">The mana cost</param>
         /// <param name="healthCost">The health cost</param>
-        public Ability(string name, float difficulty, int strength, int manaCost, int healthCost, int acquireCost)
+        public Ability(string name, float difficulty, int strength, int manaCost, int healthCost, int acquireCost, 
+                        Skill[] enhance, int duration, int buildUp, bool passive)
         {
             this.name = name;
             castDifficulty = difficulty;
@@ -97,6 +148,10 @@ namespace ArenaRe
             this.manaCost = manaCost;
             this.healthCost = healthCost;
             this.acquireCost = acquireCost;
+            this.skillEnhance = enhance == null ? new Skill[0]: enhance;
+            this.duration = duration;
+            this.buildUp = buildUp;
+            this.passive = passive;
         }
 
         internal Ability addXPToAbility(Ability ability, int xp)

@@ -51,6 +51,7 @@
     <Compile Include="Main Game Scripts\Character Scripts\Character.cs" />
     <Compile Include="Main Game Scripts\Character Scripts\CharacterCreator.cs" />
     <Compile Include="Main Game Scripts\Skill.cs" />
+    <Compile Include="Main Game Scripts\StatViewer.cs" />
     <Compile Include="Menu Scripts\DebugLog.cs" />
     <Compile Include="Menu Scripts\Help.cs" />
     <Compile Include="Main Game Scripts\Helper.cs" />

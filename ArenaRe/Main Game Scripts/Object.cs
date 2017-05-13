@@ -61,5 +61,25 @@ namespace ArenaRe
         /// Determines how likely an entity is to notice the environment
         /// </summary>
         internal Skill awareness;
+
+        /// <summary>
+        /// Initializes variables used for child classes. Contains the complete list of skills in constructor
+        /// </summary>
+        public Object()
+        {
+        }
+
+        internal void initializeSkills()
+        {
+            health = new Skill("Health", 100);
+            strength = new Skill("Strength");
+            magic = new Skill("Magic", 50);
+            speed = new Skill("Speed");
+            intelligence = new Skill("Intelligence");
+            reaction = new Skill("Reaction");
+            initiative = new Skill("Initiative");
+            awareness = new Skill("Awareness");
+            wisdom = new Skill("Wisdom");
+        }
     }
 }
