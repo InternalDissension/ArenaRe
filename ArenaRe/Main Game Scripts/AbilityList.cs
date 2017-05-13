@@ -8,23 +8,39 @@ namespace ArenaRe
 {
     static class AbilityList
     {
-        internal static Ability fireball = new Ability("Fireball", 1.0f, 5, 10, 0, 1, null, 0, 0, false);
-        internal static Ability testSpell;
-        
+        internal static Ability fireball;
 
+        internal static Ability testSpell;
+
+        static Object obj = new Object();
+        
         internal static void viewAllAbilities()
         {
 
         }
 
+        /// <summary>
+        /// Initializes all abilities that enhance skills.
+        /// </summary>
         internal static void InitializeAbilityList()
         {
-            Object obj = new Object();
             obj.initializeSkills();
-            //fireball = new Ability("Fireball", 1.0f, 5, 10, 0, 1, null, 0, 0, false);
-            Skill[] skills = new Skill[] { obj.reaction, obj.wisdom, obj.health, obj.intelligence };
-            testSpell = new Ability("Test", 1, 5, 5, 5, 1, skills, 5, 5, false);
-            //Console.WriteLine("test: " + testSpell.skillEnhance[0].name);
+
+            fireball = new Ability("Fireball", 1.0f, 5, 10, 0, 1, null, 0, 0, false);
+            initializeTestSpell();
         }
+
+        private static void initializeTestSpell()
+        {
+            Effect[] e = new Effect[] { EffectList.effectSkill(obj.health) };
+            testSpell = new Ability("Test", 1, 5, 5, 5, 1, e, 1, 5, false);
+        }
+
+        internal static void initializeTeleport()
+        {
+
+        }
+
+
     }
 }

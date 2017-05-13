@@ -9,13 +9,13 @@ namespace ArenaRe
     /// <summary>
     /// Contains methods to view the stats of characters
     /// </summary>
-    class StatViewer
+    static class StatViewer
     {
-        public StatViewer()
-        {
 
-        }
-
+        /// <summary>
+        /// Outputs the skills of a character.
+        /// </summary>
+        /// <param name="character">The character.</param>
         internal static void viewSkills(Character character)
         {
             Console.Write("                                             ");
@@ -30,6 +30,10 @@ namespace ArenaRe
             }
         }
 
+        /// <summary>
+        /// Outputs the abilities of a character
+        /// </summary>
+        /// <param name="character">The character.</param>
         internal static void viewAbilities(Character character)
         {
             Console.Write(" ");
@@ -47,13 +51,9 @@ namespace ArenaRe
                 , ability.name, ability.getXP, passive, ability.strength, ability.manaCost, ability.healthCost, 
                 ability.buildUp, ability.duration);
 
-                for (int i = 0; i < ability.skillEnhance.Length; i++)
+                for (int i = 0; i < ability.effects.Length; i++)
                 {
-                    Console.Write("{0, -120}", ability.skillEnhance[i].name);
-                }
-                foreach (Skill skill in ability.skillEnhance)
-                {
-                    
+                    Console.Write("{0, -120}", ability.effects[i].skill.name);
                 }
 
                 Console.WriteLine();

@@ -33,15 +33,12 @@ namespace ArenaRe
         }
 
         /// <summary>
-        /// What skills, if any, does the ability enhance.
+        /// What effects does this ability apply
         /// </summary>
         /// <value>
         /// The skill enhance.
         /// </value>
-        internal Skill[] skillEnhance
-        {
-            get;
-        }
+        internal Effect[] effects;
 
         /// <summary>
         /// How much mana does the spell cost?
@@ -103,6 +100,8 @@ namespace ArenaRe
             get;
         }
 
+        internal Character target;
+
         /// <summary>
         /// How much experience does the entity have in this spell?
         /// </summary>
@@ -140,7 +139,7 @@ namespace ArenaRe
         /// <param name="manaCost">The mana cost</param>
         /// <param name="healthCost">The health cost</param>
         public Ability(string name, float difficulty, int strength, int manaCost, int healthCost, int acquireCost, 
-                        Skill[] enhance, int duration, int buildUp, bool passive)
+                        Effect[] effect, int duration, int buildUp, bool passive)
         {
             this.name = name;
             castDifficulty = difficulty;
@@ -148,7 +147,7 @@ namespace ArenaRe
             this.manaCost = manaCost;
             this.healthCost = healthCost;
             this.acquireCost = acquireCost;
-            this.skillEnhance = enhance == null ? new Skill[0]: enhance;
+            this.effects = effect;
             this.duration = duration;
             this.buildUp = buildUp;
             this.passive = passive;

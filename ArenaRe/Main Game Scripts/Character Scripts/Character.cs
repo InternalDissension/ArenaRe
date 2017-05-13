@@ -59,6 +59,16 @@ namespace ArenaRe
         internal List<Ability> spells;
 
         /// <summary>
+        /// Effects that are currently attached to the entity
+        /// </summary>
+        internal List<Effect> effects;
+
+        /// <summary>
+        /// Effects are to be removed following in the cleanup phase
+        /// </summary>
+        private List<Effect> removeEffects;
+
+        /// <summary>
         /// Indicates whether the character has skill points.
         /// </summary>
         /// <value>
@@ -144,10 +154,16 @@ namespace ArenaRe
             StatViewer.viewSkills(this);
             Helper.space(3);
             spells = new List<Ability>();
+            effects = new List<Effect>();
+            removeEffects = new List<Effect>();
             AbilityList.InitializeAbilityList();
             spells.Add(AbilityList.testSpell);
-            spells.Add(AbilityList.fireball);
-            StatViewer.viewAbilities(this);
+            ActionHandler.Cast(this);
+            updateEffects();
+            StatViewer.viewSkills(this);
+            removeEffectsFrom();
+            //spells.Add(AbilityList.fireball);
+            //StatViewer.viewAbilities(this);
             Console.ReadLine();
         }
 
@@ -167,6 +183,27 @@ namespace ArenaRe
         {
             IEnumerable<Ability> abilities = typeof(Ability).Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Ability)) && !t.IsAbstract).Select(t => (Ability)Activator.CreateInstance(t));
             return abilities.ToArray();
+        }
+
+        private void updateEffects()
+        {
+            foreach (Effect effect in effects)
+            {
+                Helper.getCharacterSkillList(this).First(s => s.name == effect.skill.name).currentLevel -= effect.strength;
+                effect.duration--;
+                if (effect.duration < 1)
+                    removeEffects.Add(effect);
+            }
+        }
+
+        private void removeEffectsFrom()
+        {
+            foreach (Effect effect in removeEffects)
+            {
+                effects.Remove(effects.Where(e => e == effect).Single());
+            }
+
+            removeEffects = new List<Effect>();
         }
     }
 }
