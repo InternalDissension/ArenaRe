@@ -27,9 +27,10 @@ namespace ArenaRe
         /// <summary>
         /// How much damage does this spell do before resistance?
         /// </summary>
-        internal int strength
+        internal float strength
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace ArenaRe
         internal int manaCost
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -54,6 +56,7 @@ namespace ArenaRe
         internal int healthCost
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -76,6 +79,7 @@ namespace ArenaRe
         internal int duration
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -87,6 +91,7 @@ namespace ArenaRe
         internal int buildUp
         {
             get;
+            set;
         }
 
         /// <summary>
@@ -157,6 +162,21 @@ namespace ArenaRe
         {
             ability.xp += xp;
             return ability;
+        }
+
+        static internal bool isManaCostValid(int manaCost)
+        {
+            return manaCost > 0;
+        }
+
+        static internal bool isHealthCostValid(int healthCost)
+        {
+            return healthCost > 0;
+        }
+
+        static internal bool isBuildUpCostValid(int buildUp)
+        {
+            return buildUp > 0;
         }
     }
 }

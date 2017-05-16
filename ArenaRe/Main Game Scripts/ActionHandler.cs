@@ -108,22 +108,28 @@ namespace ArenaRe
             return 0;
         }
 
-        static internal int Cast(Character character)
+        /// <summary>
+        /// Casts an ability from character to target 
+        /// </summary>
+        /// <param name="character">The character.</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        static internal int Cast(Character character, Character target)
         {
             for(int i = 0; i < character.spells.Count; i++)
             {
                 Console.WriteLine((i + 1) + ": " + character.spells[i].name);
             }
 
-            int choice = Helper.processChoice();
+            int choice = Helper.processChoice(true);
 
             try
             {
-                character.spells[choice].target = character;
+                character.spells[choice].target = target;
                 for (int i = 0; i < character.spells[choice].effects.Length; i++)
                 {
                     Skill skill = Helper.getCharacterSkillList(character).Where(s => s.name == character.spells[choice].effects[choice].skill.name).Single();
-                    int strength = character.spells[i].strength;
+                    int strength = (int)Math.Floor(character.spells[i].strength);
                     int duration = character.spells[i].duration;
                     character.spells[i].target.effects.Add(new Effect(skill, strength, duration));
                 }
@@ -132,8 +138,9 @@ namespace ArenaRe
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 //Console.WriteLine("It failed");
-                choice = Cast(character);
+                choice = Cast(character, target);
             }
 
             return choice;

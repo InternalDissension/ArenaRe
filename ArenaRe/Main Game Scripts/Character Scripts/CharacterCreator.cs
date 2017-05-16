@@ -43,26 +43,151 @@ namespace ArenaRe
 
         internal static void distributeSkillPoints(Character character)
         {
-
-            Skill[] skillList = Helper.getCharacterSkillList(character);
-
-            Console.WriteLine(skillList.Length + " Printing list of skills");
-            for (int i = 0; i < skillList.Length; i++)
+            int choice = 0;
+            while (choice != -1 && character.hasSkillPoints)
             {
-                Console.WriteLine((i + 1) + ": " + skillList[i].name);
+                Console.Clear();
+                Helper.space(2);
+
+                Console.WriteLine("Select which skill you'd like to upgrade:");
+                Skill[] skillList = Helper.getCharacterSkillList(character);
+
+                for (int i = 0; i < skillList.Length; i++)
+                {
+                    Console.Write((i + 1) + ": " + skillList[i].name);
+                    Console.WriteLine(": " + skillList[i].normalLevel);
+                }
+
+                Console.WriteLine("0 to go back");
+                choice = Helper.processChoice(true);
+
+                if (choice == -1)
+                    continue;
+
+                Console.WriteLine("Upgrade " + skillList[choice].name + "? (y/n)");
+                if (Console.ReadLine() == "y")
+                {
+                    if (skillList[choice].normalLevel + 1 < skillList[choice].maxLevel)
+                    {
+                        int points = investPoints();
+                        while (points > character.getSkillPoints)
+                        {
+                            points = investPoints();
+                            Console.WriteLine("Not enough points"); Helper.space(2);
+                        }
+
+                        Helper.getCharacterSkillList(character)[choice].currentLevel += points;
+                        Helper.getCharacterSkillList(character)[choice].normalLevel += points;
+
+                        while (points > 0)
+                        {
+                            character.subSkillPoint();
+                            points--;
+                        }
+                    }
+
+                    else
+                        Console.WriteLine("Skill is maxed");
+                }
             }
 
-            Console.ReadLine();
+            if (!character.hasSkillPoints)
+            {
+                Console.WriteLine("No Skill Points");
+                Console.WriteLine("Enter to continue");
+                Console.ReadLine();
+                return;
+            }
         }
 
         internal static void distributeAbilityPoints(Character character)
         {
-            for (int i = 0; i < character.spells.Count; i++)
+
+            if (!character.hasAbilityPoints)
             {
-                Console.WriteLine((i + 1) + ": " + character.spells[i].name);
+                Console.WriteLine("No Ability Points");
+                Console.WriteLine("Enter to continue");
+                Console.ReadLine();
+                return;
             }
 
-            Console.ReadLine();
+            int choice = -1;
+
+            Console.WriteLine();
+            Console.WriteLine("Select spell to upgrade: ");
+            while (choice != 0 && character.hasAbilityPoints)
+            {
+                for (int i = 0; i < character.spells.Count; i++)
+                {
+                    Console.WriteLine((i + 1) + ": " + character.spells[i].name);
+                }
+
+                choice = Helper.processChoice(true);
+
+                if (character.spells.ElementAtOrDefault(choice) != null)
+                {
+                    Console.WriteLine(@"
+Viewing {0}:
+What would you like to upgrade?
+1: Strength
+2: Duration
+3: Build up
+4: Mana Cost
+5: Health Cost
+6: Go Back");
+
+                    int choice2 = Helper.processChoice(false);
+
+                    switch (choice2)
+                    {
+                        case 1:
+                            character.spells[choice].strength++;
+                            character.subAbilityPoint();
+                            break;
+
+                        case 2:
+                            character.spells[choice].duration++;
+                            character.subAbilityPoint();
+                            break;
+
+                        case 3:
+                            if (Ability.isBuildUpCostValid(character.spells[choice].buildUp))
+                            {
+                                character.spells[choice].buildUp++;
+                                character.subAbilityPoint();
+                            }
+
+                            break;
+
+                        case 4:
+                            if (Ability.isManaCostValid(character.spells[choice].manaCost))
+                            {
+                                character.spells[choice].manaCost--;
+                                character.subAbilityPoint();
+                            }
+                            break;
+
+                        case 5:
+                            if (Ability.isHealthCostValid(character.spells[choice].healthCost))
+                            {
+                                character.spells[choice].healthCost--;
+                                character.subAbilityPoint();
+                            }
+                            break;
+
+                        case 6:
+                            break;
+
+                        default:
+                            choice = -1;
+                            break;
+                    }
+                }
+
+                else
+                    DebugLog.invalidInputError(choice + " is not valid");
+            }
+
         }
 
         /// <summary>
@@ -73,44 +198,73 @@ namespace ArenaRe
         /// <returns></returns>
         internal static int addNewAbility(Character character)
         {
-            Ability[] abilityList = Helper.getAbilityList();
+            Console.Clear();
+            List<Ability> abilityList = Helper.getAbilityList().ToList();
+            StatViewer.viewAbilityArray(abilityList.ToArray());
 
+            Helper.space(2);
+
+            Console.WriteLine("Select spell: ");
             //Iterate through abilityList variable and list all ability names
-            for (int i = 0; i < abilityList.Length; i++)
+            for (int i = 0; i < abilityList.Count; i++)
             {
-                if (!character.spells.Contains(abilityList[i]))     //If the character doesn't have the ability
+                if (character.spells.Contains(abilityList[i]))      //If the character has the ability
+                {
+                    abilityList.RemoveAt(i);                            //Remove it and continue
+                    i--;
+                    continue;
+                }
                     Console.WriteLine((i + 1) + ": " + abilityList[i].name);   //List it
             }
 
-            int choice = Helper.processChoice();
+            Console.WriteLine((abilityList.Count + 1) + ": Go back");
 
-            try
-            {
-                //Output choice to the user
-                Console.WriteLine("Are you sure you want to add: " + abilityList[choice] + "? (y/n)");
-            }
+            int choice = Helper.processChoice(true);
 
-            catch
-            {
-                DebugLog.invalidInputError(choice + " is not a valid input");
-                choice = addNewAbility(character);
-            }
+            if (choice == abilityList.Count)
+                return choice;
 
-            //If user enters y
-            if (Console.ReadLine() == "y")
-
-                //If the user has enough ability points to acquire the ability, add it
-                if (character.getAbilityPoints >= abilityList[choice].acquireCost)
-                    character.spells.Add(abilityList[choice]);
-
-                //Otherwise let the user know that they have insufficient points
-                else
-                    Console.WriteLine("Not enough ability points");
-            //Else recall the function
             else
-                choice = addNewAbility(character);
+            {
+                try
+                {
+                    //Output choice to the user
+                    Console.WriteLine("Are you sure you want to add: " + abilityList[choice].name + "? (y/n)");
+                }
+
+                catch
+                {
+                    DebugLog.invalidInputError(choice + " is not a valid input");
+                    choice = addNewAbility(character);
+                }
+
+                //If user enters y
+                if (Console.ReadLine() == "y")
+
+                    //If the user has enough ability points to acquire the ability, add it
+                    if (character.getAbilityPoints >= abilityList[choice].acquireCost)
+                    {
+                        character.spells.Add(abilityList[choice]);
+                        character.subAbilityPoint();
+                    }
+
+                    //Otherwise let the user know that they have insufficient points
+                    else
+                        Console.WriteLine("Not enough ability points");
+                //Else recall the function
+                else
+                    choice = addNewAbility(character);
+            }
 
             return choice;
+        }
+
+        private static int investPoints()
+        {
+            Console.WriteLine("How many points would you like to invest? (0 to cancel)");
+            int points = Helper.processChoice(false);
+
+            return points;
         }
     }
 }

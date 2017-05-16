@@ -149,22 +149,12 @@ namespace ArenaRe
         public Character()
         {
             initializeSkills();
-            //CharacterCreator.distributeSkillPoints(this);
-            //CharacterCreator.distributeAbilityPoints(this);
-            StatViewer.viewSkills(this);
-            Helper.space(3);
+
             spells = new List<Ability>();
             effects = new List<Effect>();
             removeEffects = new List<Effect>();
-            AbilityList.InitializeAbilityList();
-            spells.Add(AbilityList.testSpell);
-            ActionHandler.Cast(this);
-            updateEffects();
-            StatViewer.viewSkills(this);
-            removeEffectsFrom();
-            //spells.Add(AbilityList.fireball);
-            //StatViewer.viewAbilities(this);
-            Console.ReadLine();
+
+            CharacterCreator.Initialize(this, true);
         }
 
         /// <summary>

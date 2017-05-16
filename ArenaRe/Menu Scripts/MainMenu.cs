@@ -8,10 +8,26 @@ namespace ArenaRe
 {
     class MainMenu : Menu
     {
+        Character character;
+        bool running = true;
+
         public MainMenu()
         {
             Object obj = new Object();
-            displayMenu();
+            Initialization();
+            while (running)
+                displayMenu();
+            
+        }
+
+        /// <summary>
+        /// Initializes all necesssary static classes and functions to run the game.
+        /// </summary>
+        private void Initialization()
+        {
+            //Initialize the all abilities
+            AbilityList.InitializeAbilityList();
+
         }
 
         /// <summary>
@@ -21,24 +37,19 @@ namespace ArenaRe
         protected override int displayMenu()
         {
             int choice = 0;
-
+            Console.Clear();
             Console.WriteLine(@"
 Welcome to Revelation Motherfucker
 
-1. Battle some punks
-2. Get tips
-3. Quit (Just close the application ass-wipe)");
+1. Battle
+2. View Character
+3. Get tips
+4. Save Game
+5. Load Game
+6. Quit (Just close the application ass-wipe)");
             Console.Write("Choice: ");
 
-            try
-            {
-                choice = int.Parse(Console.ReadLine());
-            }
-
-            catch
-            {
-                choice = displayMenu();
-            }
+            choice = Helper.processChoice(false);
 
             return processMenuChoice(choice);
         }
@@ -53,13 +64,29 @@ Welcome to Revelation Motherfucker
             switch(choice)
             {
                 case 1:
-                    Character c = new Character();
+                    if (character == default(Character))
+                    {
+                        //BattleMenu bm = new BattleMenu();
+                    }
                     break;
 
                 case 2:
+                    if (character == default(Character))
+                        character = new Character();
+
+                    StatViewer.viewCharacter(character);
                     break;
 
                 case 3:
+                    break;
+
+                case 4:
+                    break;
+
+                case 5:
+                    break;
+
+                case 6:
                     break;
 
                 default:

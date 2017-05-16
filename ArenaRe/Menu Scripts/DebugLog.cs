@@ -36,6 +36,7 @@ namespace ArenaRe
         internal static void invalidInputError(string message)
         {
             Console.WriteLine("Invalid Input. " + message);
+            Console.WriteLine("Press Enter to continue...");
         }
     }
 }

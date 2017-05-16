@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ArenaRe
 {
+    /// <summary>
+    /// Contains various functions that make life easier for the assembly
+    /// </summary>
     class Helper
     {
         /// <summary>
@@ -43,6 +46,10 @@ namespace ArenaRe
             return random.Next(min, max);
         }
 
+        /// <summary>
+        /// Returns true if an input is an integer
+        /// </summary>
+        /// <returns></returns>
         internal static bool tryParse()
         {
             int choice = 0;
@@ -61,30 +68,28 @@ namespace ArenaRe
         }
 
         /// <summary>
-        /// Processes the choice of the user. Returns the number pressed - 1 (user enters 1, returns 0)
+        /// Processes the choice of the user. Returns the number pressed - 1 if startAtZero is true
         /// </summary>
         /// <returns></returns>
-        internal static int processChoice()
+        internal static int processChoice(bool startAtZero)
         {
             int choice = 0;
 
             try
             {
-                choice = int.Parse(Console.ReadLine()) - 1;
+                choice = int.Parse(Console.ReadLine());
             }
 
             catch
             {
                 DebugLog.invalidInputError("Input must me numerical");
-                choice = processChoice();
+                choice = processChoice(startAtZero);
             }
 
+            if (startAtZero)
+                return choice - 1;
+
             return choice;
-        }
-
-        internal static void confirmChoice(string choiceName)
-        {
-
         }
 
         /// <summary>
@@ -111,6 +116,10 @@ namespace ArenaRe
             return t.GetFields(flags).Where(f => f.FieldType == typeof(Skill)).Select(f => (Skill)f.GetValue(t)).ToArray();
         }
 
+        /// <summary>
+        /// Returns all abilities in an array
+        /// </summary>
+        /// <returns></returns>
         internal static Ability[] getAbilityList()
         {
             //Used to get the fields in AbilityList.cs
@@ -125,7 +134,7 @@ namespace ArenaRe
         }
 
         /// <summary>
-        /// Spaces the text vertically by number of spaces. 0 Will go to next line
+        /// Spaces text vertically by number of spaces.
         /// </summary>
         /// <param name="numOfSpaces">The number of spaces.</param>
         internal static void space(int numOfSpaces)

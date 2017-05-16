@@ -36,6 +36,11 @@ namespace ArenaRe
             testSpell = new Ability("Test", 1, 5, 5, 5, 1, e, 1, 5, false);
         }
 
+        private static void initializeFireball()
+        {
+            Effect[] e = new Effect[] { new Effect(obj.health) };
+        }
+
         internal static void initializeTeleport()
         {
 
