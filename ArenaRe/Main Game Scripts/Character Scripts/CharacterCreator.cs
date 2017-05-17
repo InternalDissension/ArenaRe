@@ -25,6 +25,11 @@ namespace ArenaRe
         /// <returns></returns>
         internal static Character Initialize(Character character, bool player)
         {
+            if (player)
+            {
+                Console.Write("Name your character: ");
+                character.name = Console.ReadLine();
+            }
             character.addSkillPoint(20);
             character.addAbilityPoint(5);
 

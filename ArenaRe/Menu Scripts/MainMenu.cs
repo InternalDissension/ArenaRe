@@ -8,7 +8,7 @@ namespace ArenaRe
 {
     class MainMenu : Menu
     {
-        Character character;
+        Character player;
         bool running = true;
 
         public MainMenu()
@@ -64,17 +64,17 @@ Welcome to Revelation Motherfucker
             switch(choice)
             {
                 case 1:
-                    if (character == default(Character))
-                    {
-                        //BattleMenu bm = new BattleMenu();
-                    }
+                    if (player == default(Character))
+                        player = new Character(true);
+
+                    BattleMenu bm = new BattleMenu(player);
                     break;
 
                 case 2:
-                    if (character == default(Character))
-                        character = new Character();
+                    if (player == default(Character))
+                        player = new Character(true);
 
-                    StatViewer.viewCharacter(character);
+                    StatViewer.viewCharacter(player);
                     break;
 
                 case 3:

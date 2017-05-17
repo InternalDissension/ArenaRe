@@ -71,6 +71,7 @@ namespace ArenaRe
 
         internal void initializeSkills()
         {
+            name = "Player";
             health = new Skill("Health", 100);
             strength = new Skill("Strength");
             magic = new Skill("Magic", 50);

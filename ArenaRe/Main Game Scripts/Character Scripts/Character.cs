@@ -146,7 +146,7 @@ namespace ArenaRe
             abilityPoints--;
         }
 
-        public Character()
+        public Character(bool player)
         {
             initializeSkills();
 
@@ -154,7 +154,7 @@ namespace ArenaRe
             effects = new List<Effect>();
             removeEffects = new List<Effect>();
 
-            CharacterCreator.Initialize(this, true);
+            CharacterCreator.Initialize(this, player);
         }
 
         /// <summary>

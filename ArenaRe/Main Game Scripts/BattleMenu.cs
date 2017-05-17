@@ -8,23 +8,29 @@ namespace ArenaRe
 {
     class BattleMenu : Menu
     {
-        private List<Character> enemies;
+        Character player;
 
-        public BattleMenu()
+        private List<Character> enemies = new List<Character>();
+
+        public BattleMenu(Character player)
         {
+            this.player = player;
             while (displayMenu() != 4)
                 continue;
         }
 
-        private void addEnemy()
+        private Character addEnemy()
         {
-
+            Character enemy = new Character(false);
+            enemy.name = "Enemy " + (enemies.Count + 1);
+            enemies.Add(enemy);
+            return enemy;
         }
 
         protected override int displayMenu()
         {
             Console.WriteLine(@"
-There are currently [0] enemies standing before you
+There are currently {0} enemies standing before you
 1. Start Battle
 2. Add Enemy
 3. Check stats
@@ -32,15 +38,7 @@ There are currently [0] enemies standing before you
 
             int choice = 0;
 
-            try
-            {
-                choice = int.Parse(Console.ReadLine());
-            }
-
-            catch
-            {
-                choice = displayMenu();
-            }
+            choice = Helper.processChoice(false);
 
             return processMenuChoice(choice);
         }
@@ -50,6 +48,8 @@ There are currently [0] enemies standing before you
             switch (choice)
             {
                 case 1:
+                    if (enemies.Count > 0)
+                        new Battle(player, enemies);
                     break;
 
                 case 2:
@@ -57,6 +57,7 @@ There are currently [0] enemies standing before you
                     break;
 
                 case 3:
+                    StatViewer.viewCharacter(player);
                     break;
 
                 case 4:
