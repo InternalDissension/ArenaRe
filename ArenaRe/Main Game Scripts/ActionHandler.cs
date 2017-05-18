@@ -64,6 +64,21 @@ namespace ArenaRe
         }
 
         /// <summary>
+        /// Returns whether an entity is granted a reaction
+        /// </summary>
+        /// <returns></returns>
+        static internal bool calcReaction(Character entity, Character initiator)
+        {
+            float reactionChance = 35
+                + ((initiator.initiative.currentLevel - entity.reaction.currentLevel));
+
+            if (Helper.randomValue(1.0f, 101.0f) <= reactionChance)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
         /// Returns whether a recover is successful
         /// </summary>
         /// <param name="character"></param>

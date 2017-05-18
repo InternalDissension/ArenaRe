@@ -68,6 +68,22 @@ namespace ArenaRe
         }
 
         /// <summary>
+        /// Displays a set of choices to the player and returns the input of the chosen one
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
+        internal static int getChoice(string message, string[] options)
+        {
+            Console.WriteLine(message);
+
+            for (int i = 0; i < options.Length; i++)
+                Console.WriteLine((i + 1) + options[i]);
+
+            return processChoice(true);
+        }
+
+        /// <summary>
         /// Processes the choice of the user. Returns the number pressed - 1 if startAtZero is true
         /// </summary>
         /// <returns></returns>
@@ -141,6 +157,33 @@ namespace ArenaRe
         {
             for (int i = 0; i < numOfSpaces + 1; i++)
                 Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Calculates the number of actions a character gets on their turn.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <param name="enemies">The enemies.</param>
+        /// <returns></returns>
+        internal static int calculateActions(Character entity, Character[] enemies)
+        {
+            int totalEnemyInitiative = 0;
+            int diffThreshold = 5;          //Actions increase by 1 for every (this value) points over enemy initiative
+
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                totalEnemyInitiative += enemies[i].initiative.currentLevel;
+            }
+
+            int actions = 1;
+
+            while (entity.initiative.currentLevel >= totalEnemyInitiative + diffThreshold)
+            {
+                totalEnemyInitiative -= diffThreshold;
+                actions++;
+            }
+
+            return actions;
         }
     }
 }

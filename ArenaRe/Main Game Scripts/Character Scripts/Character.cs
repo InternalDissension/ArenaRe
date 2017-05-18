@@ -46,12 +46,22 @@ namespace ArenaRe
         /// <summary>
         /// The x location of the entity on the arena grid
         /// </summary>
-        internal float xPosition;
+        internal int xPosition;
 
         /// <summary>
         /// The y location of the entity on the arena grid
         /// </summary>
-        internal float yPosition;
+        internal int yPosition;
+
+        /// <summary>
+        /// The number of actions the entity gets per turn
+        /// </summary>
+        internal int actions;
+
+        /// <summary>
+        /// Determines if the character gains a reaction
+        /// </summary>
+        internal bool canReact;
 
         /// <summary>
         /// The list of abilities the entity can use
