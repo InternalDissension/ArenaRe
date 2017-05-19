@@ -34,6 +34,11 @@ namespace ArenaRe
         }
 
         /// <summary>
+        /// How many units can this ability travel
+        /// </summary>
+        internal float range;
+
+        /// <summary>
         /// What effects does this ability apply
         /// </summary>
         /// <value>
@@ -104,6 +109,11 @@ namespace ArenaRe
         {
             get;
         }
+
+        /// <summary>
+        /// The probability this spell is given to an AI character
+        /// </summary>
+        internal float probability;
 
         internal Character target;
 

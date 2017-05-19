@@ -14,6 +14,46 @@ namespace ArenaRe
     {
 
         /// <summary>
+        /// The statuses of health
+        /// </summary>
+        internal enum healthStatus
+        {
+            Untouched,
+            Scratched,
+            Bruised,
+            Scarred,
+            Severe,
+            Critical
+        }
+
+        internal string calcStatus()
+        {
+            string[] status = Enum.GetNames(typeof(healthStatus));
+
+            healthStatus s = 0;
+
+            if (health.currentLevel == health.normalLevel)
+                s = healthStatus.Untouched;
+
+            else if (health.currentLevel > 0.9 * health.normalLevel)
+                s = healthStatus.Scratched;
+
+            else if (health.currentLevel > .75 * health.normalLevel)
+                s = healthStatus.Bruised;
+
+            else if (health.currentLevel > .50 * health.normalLevel)
+                s = healthStatus.Scarred;
+
+            else if (health.currentLevel > .20 * health.normalLevel)
+                s = healthStatus.Severe;
+
+            else if (health.currentLevel > 0)
+                s = healthStatus.Critical;
+
+                return status[(int)s];
+        }
+
+        /// <summary>
         /// The skill points the entity can spend on increasing skills
         /// </summary>
         private int skillPoints;
@@ -154,6 +194,11 @@ namespace ArenaRe
         internal void subAbilityPoint()
         {
             abilityPoints--;
+        }
+
+        public Character()
+        {
+
         }
 
         public Character(bool player)

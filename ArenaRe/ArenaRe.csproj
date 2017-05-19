@@ -53,6 +53,7 @@
     <Compile Include="Main Game Scripts\Character Scripts\CharacterCreator.cs" />
     <Compile Include="Main Game Scripts\Effect.cs" />
     <Compile Include="Main Game Scripts\EffectList.cs" />
+    <Compile Include="Main Game Scripts\ProbabilityHelper.cs" />
     <Compile Include="Main Game Scripts\Skill.cs" />
     <Compile Include="Main Game Scripts\StatViewer.cs" />
     <Compile Include="Menu Scripts\DebugLog.cs" />
