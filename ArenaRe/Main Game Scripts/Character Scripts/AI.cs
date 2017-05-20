@@ -26,10 +26,7 @@ namespace ArenaRe
 
         private enum Action
         {
-            MoveForward,
-            MoveBack,
-            MoveRight,
-            MoveLeft,
+            MoveTo,
             Attack,
             CastOnSelf,
             CastAtTarget,
@@ -44,16 +41,15 @@ namespace ArenaRe
         {
             Melee,
             Cast,
-            Defend,
             DefendAlly,
-            Backstab,
             Retreat,
             Heal,
-            HealAlly,
-            PositionMelee,
-            PositionDefend,
-            PositionCast
+            HealAlly
         }
+
+        Goal[] goal;
+        Title[] titles;
+        Action action;
         public AI()
         {
         }

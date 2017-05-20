@@ -52,6 +52,7 @@ namespace ArenaRe
         Character player;
         List<Character> enemies;
         List<Character> characters;
+        Character initiator;
         private bool battleActive = true;
 
         public Battle()
@@ -64,6 +65,8 @@ namespace ArenaRe
             arena = new Arena();
             this.player = player;
             this.enemies = enemies;
+            characters = determineTurnOrder();
+            arena.placeCharacters(characters);
             showBattleStats();
             Console.ReadLine();
         }
@@ -135,7 +138,6 @@ namespace ArenaRe
         {
             while (battleActive)
             {
-                characters = determineTurnOrder();
 
                 for (int turnNum = 0; turnNum < characters.Count; turnNum++)
                 {
@@ -157,8 +159,9 @@ namespace ArenaRe
         /// Controls the action cycle
         /// </summary>
         /// <param name="initiator">The character.</param>
-        private void combatPhases(Character initiator)
+        private void combatPhases(Character init)
         {
+            initiator = init;
             //Action Phase
             while (initiator.actions > 0)
             {
@@ -191,8 +194,7 @@ namespace ArenaRe
 1. Move
 2. Attack
 3. Rally (Boost Defense)
-4. Cast
-5. Examine");
+4. Cast");
 
             int choice = Helper.processChoice(false);
             return processCombatOption(choice);
@@ -203,9 +205,11 @@ namespace ArenaRe
             switch (choice)
             {
                 case 1:
+                    viewMoveOptions();
                     break;
 
                 case 2:
+                    ActionHandler.Attack(player, selectTarget());
                     break;
 
                 case 3:
@@ -214,14 +218,73 @@ namespace ArenaRe
                 case 4:
                     break;
 
-                case 5:
-                    break;
-
                 default:
                     choice = viewCombatOptions();
                     break;
             }
             return choice;
+        }
+
+        private void viewMoveOptions()
+        {
+            int choice = Helper.getChoice("Which direction?", new string[] { "Forward", "Back", "Left", "Right",
+                                                            "ForwardLeft", "ForwardRight", "BackLeft", "BackRight", "Go Back" });
+
+            switch (choice)
+            {
+                case 1:
+                    ActionHandler.MoveForward(player);
+                    break;
+
+                case 2:
+                    ActionHandler.MoveBackward(player);
+                    break;
+                case 3:
+                    ActionHandler.MoveLeft(player);
+                    break;
+                case 4:
+                    ActionHandler.MoveRight(player);
+                    break;
+                case 5:
+                    ActionHandler.MoveForwardLeft(player);
+                    break;
+                case 6:
+                    ActionHandler.MoveForwardRight(player);
+                    break;
+                case 7:
+                    ActionHandler.MoveBackLeft(player);
+                    break;
+                case 8:
+                    ActionHandler.MoveBackRight(player);
+                    break;
+                case 9:
+                    viewCombatOptions();
+                    break;
+            }
+
+        }
+
+        private Character selectTarget()
+        {
+            string[] t = new string[characters.Count - 1];
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                Console.WriteLine((i + 1) + enemies[i].name);
+            }
+
+            int choice = Helper.processChoice(true);
+
+            try
+            {
+                return enemies[choice];
+            }
+
+            catch
+            {
+                DebugLog.invalidInputError("Not a valid target");
+                Helper.space(2);
+                return selectTarget();
+            }
         }
 
         private void actionPhase(bool player)
@@ -247,7 +310,7 @@ namespace ArenaRe
                 if (c == initiator)
                     continue;
 
-                c.canReact = ActionHandler.calcReaction(c, initiator);
+                c.canReact = Calculations.calcReaction(c, initiator);
             }
         }
 

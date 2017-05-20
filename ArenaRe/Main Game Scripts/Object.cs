@@ -23,6 +23,11 @@ namespace ArenaRe
         internal Skill health;
 
         /// <summary>
+        /// The defense an entity has
+        /// </summary>
+        internal Skill defense;
+
+        /// <summary>
         /// Determines the amount of abilities an entity can cast
         /// </summary>
         internal Skill magic;
@@ -63,6 +68,11 @@ namespace ArenaRe
         internal Skill awareness;
 
         /// <summary>
+        /// The range the entity can reach
+        /// </summary>
+        internal int range;
+
+        /// <summary>
         /// Initializes variables used for child classes. Contains the complete list of skills in constructor
         /// </summary>
         public Object()
@@ -81,6 +91,8 @@ namespace ArenaRe
             initiative = new Skill("Initiative");
             awareness = new Skill("Awareness");
             wisdom = new Skill("Wisdom");
+            defense = new Skill("Defense");
+            range = 1;
         }
     }
 }

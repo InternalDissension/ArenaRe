@@ -3,26 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ArenaRe
 {
     /// <summary>
     /// Contains various functions that make life easier for the assembly
     /// </summary>
-    class Helper
+    static class Helper
     {
         /// <summary>
         /// Used for random number generation
         /// </summary>
-        private static Random random;
-
-        /// <summary>
-        /// Initialize variables for helper functions
-        /// </summary>
-        public Helper()
-        {
-            random = new Random(Guid.NewGuid().GetHashCode());
-        }
+        private static Random random = new Random(Guid.NewGuid().GetHashCode());
 
         /// <summary>
         /// Returns a random float between a max and min
@@ -113,7 +106,7 @@ namespace ArenaRe
         /// </summary>
         /// <param name="character">The character.</param>
         /// <returns></returns>
-        internal static Skill[] getCharacterSkillList(Character character)
+        internal static Skill[] getCharacterSkillList(Object character)
         {
             System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
             return character.GetType().GetFields(flags).Where(f => f.FieldType == typeof(Skill)).Select(f => (Skill)f.GetValue(character)).ToArray();
@@ -184,6 +177,19 @@ namespace ArenaRe
             }
 
             return actions;
+        }
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Helper.randomValue(0, list.Count);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
     }
 }

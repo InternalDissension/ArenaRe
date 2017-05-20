@@ -65,6 +65,17 @@ namespace ArenaRe
             positions = buildArena();   //Store positions between boundaries
         }
 
+        public Arena(int x, int y)
+        {
+            arenaXPlus = x;
+            arenaXMinus = -x;
+
+            arenaYPlus = y;
+            arenaYMinus = -y;
+
+            positions = buildArena();
+        }
+
         /// <summary>
         /// Checks if a position is occupied. Returns true if it is. False if it is NOT
         /// </summary>
@@ -93,6 +104,19 @@ namespace ArenaRe
             //Print the given position to the console if debugging and return null
             DebugLog.Log(DebugLog.NoObjectAtPositionLog, position.getXPosition.ToString() + position.getYPosition.ToString());
             return null;
+        }
+
+        internal void placeCharacters(List<Character> characters)
+        {
+            List<PositionClass> available = positions.Select(l => l.Key).ToList();
+
+            foreach (Character character in characters)
+            {
+                int r = Helper.randomValue(0, available.Count);
+                character.xPosition = available[r].getXPosition;
+                character.yPosition = available[r].getYPosition;
+                available.RemoveAt(r);
+            }
         }
 
         /// <summary>

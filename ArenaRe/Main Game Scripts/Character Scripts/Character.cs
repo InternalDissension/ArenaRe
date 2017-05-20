@@ -119,6 +119,11 @@ namespace ArenaRe
         private List<Effect> removeEffects;
 
         /// <summary>
+        /// Items the player currently has
+        /// </summary>
+        internal List<Item> items;
+
+        /// <summary>
         /// Indicates whether the character has skill points.
         /// </summary>
         /// <value>
@@ -230,6 +235,11 @@ namespace ArenaRe
             return abilities.ToArray();
         }
 
+        internal void addEffect(Effect effect)
+        {
+            effects.Add(effect);
+        }
+
         private void updateEffects()
         {
             foreach (Effect effect in effects)
@@ -249,6 +259,27 @@ namespace ArenaRe
             }
 
             removeEffects = new List<Effect>();
+        }
+
+        internal void addItem(Item item)
+        {
+            items.Add(item);
+
+            for (int i = 0; i < Helper.getCharacterSkillList(this).Length; i++)
+            {
+                Helper.getCharacterSkillList(this)[i].currentLevel += Helper.getCharacterSkillList(item).Where(t => t.name == Helper.getCharacterSkillList(this)[i].name).Single().currentLevel;
+            }
+            
+        }
+
+        internal void removeItem(Item item)
+        {
+            for (int i = 0; i < Helper.getCharacterSkillList(this).Length; i++)
+            {
+                Helper.getCharacterSkillList(this)[i].currentLevel -= Helper.getCharacterSkillList(item).Where(t => t.name == Helper.getCharacterSkillList(this)[i].name).Single().currentLevel;
+            }
+
+            items.Remove(item);
         }
     }
 }

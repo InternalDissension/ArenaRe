@@ -39,88 +39,36 @@ namespace ArenaRe
             return true;
         }
 
-        static internal bool Attack(Character character, Character target)
+        static internal bool MoveForwardRight(Character character)
         {
             return true;
         }
 
-        /// <summary>
-        /// Returns whether a designated movement is successful or stopped
-        /// </summary>
-        /// <param name="character"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        static internal bool calcMoveChance(Character character, Character target)
+        static internal bool MoveForwardLeft(Character character)
         {
-            float moveChance = 50 
-                + ((character.initiative.currentLevel - target.reaction.currentLevel) 
-                + (character.strength.currentLevel - target.strength.currentLevel)
-                + (character.speed.currentLevel - target.speed.currentLevel));
-
-            if (Helper.randomValue(1, 101) <= moveChance)
-                return true;
-
-            return false;
+            return true;
         }
 
-        /// <summary>
-        /// Returns whether an entity is granted a reaction
-        /// </summary>
-        /// <returns></returns>
-        static internal bool calcReaction(Character entity, Character initiator)
+        static internal bool MoveBackRight(Character character)
         {
-            float reactionChance = 35
-                + ((initiator.initiative.currentLevel - entity.reaction.currentLevel));
-
-            if (Helper.randomValue(1.0f, 101.0f) <= reactionChance)
-                return true;
-
-            return false;
+            return true;
         }
 
-        /// <summary>
-        /// Returns whether a recover is successful
-        /// </summary>
-        /// <param name="character"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        static internal bool calcMoveFailRecover(Character character, Character target)
+        static internal bool MoveBackLeft(Character character)
         {
-            float recoverChance = 50 
-                + (((character.reaction.currentLevel / 2) 
-                - (target.initiative.currentLevel 
-                + target.reaction.currentLevel / 4))
-                + (character.strength.currentLevel - target.strength.currentLevel)
-                + (character.speed.currentLevel - target.speed.currentLevel));
-
-            if (Helper.randomValue(1, 101) <= recoverChance)
-                return true;
-
-            return false;
+            return true;
         }
 
-        /// <summary>
-        /// Calculates the change in momentum if an entity fails to recover.
-        /// 0 = nothing happens, 1 = lose an action, 2 = lose action and target gains immediate action
-        /// </summary>
-        /// <param name="character"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        static internal int calcPunish(Character character, Character target)
+        static internal bool Attack(Character character, Character target)
         {
-            float punishChance = 50 + 
-                ((character.wisdom.currentLevel + character.reaction.currentLevel) 
-                - (target.wisdom.currentLevel + target.reaction.currentLevel));
-
-            if (Helper.randomValue(1,101) <= punishChance)
+            if (Calculations.calcMoveChance(character, target))
             {
-                if (Helper.randomValue(1, 101) <= punishChance)
-                    return 2;
+                int damage = Calculations.calcMeleeDamage(character, target);
+                Console.WriteLine("Attack hits for " + damage);
 
-                return 1;
+                target.health.currentLevel -= damage;
             }
-
-            return 0;
+            return true;
         }
 
         /// <summary>
