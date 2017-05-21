@@ -91,7 +91,7 @@ namespace ArenaRe
             initiative = new Skill("Initiative");
             awareness = new Skill("Awareness");
             wisdom = new Skill("Wisdom");
-            defense = new Skill("Defense");
+            defense = new Skill("Defense", 1);
             range = 1;
         }
     }

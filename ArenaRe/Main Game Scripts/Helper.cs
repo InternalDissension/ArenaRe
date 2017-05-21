@@ -73,7 +73,7 @@ namespace ArenaRe
             for (int i = 0; i < options.Length; i++)
                 Console.WriteLine((i + 1) + options[i]);
 
-            return processChoice(true);
+            return processChoice(false);
         }
 
         /// <summary>

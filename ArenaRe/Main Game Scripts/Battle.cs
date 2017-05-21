@@ -67,7 +67,7 @@ namespace ArenaRe
             this.enemies = enemies;
             characters = determineTurnOrder();
             arena.placeCharacters(characters);
-            showBattleStats();
+            combatCycle();
             Console.ReadLine();
         }
 
@@ -102,7 +102,7 @@ namespace ArenaRe
         {
             Console.WriteLine("{0, 0}{1}", "Player: ", player.name);
             Console.WriteLine("{0, 0} {1, 0} {2, 0} {3} ", "Health:", player.health.currentLevel, "Mana:", player.magic.currentLevel);
-            Console.WriteLine();
+            Console.WriteLine(player.xPosition + " | " + player.yPosition);
             int x = 0;
 
             for (int i = 0; i < enemies.Count; i++)
@@ -116,7 +116,7 @@ namespace ArenaRe
                 int t = x;
                 while (x <= i)
                 {
-                    Console.Write("{0, 0}{1, 0}  {2, 0}{3, -8} ", "Health:", enemies[x].health.currentLevel, "Mana:", enemies[x].magic.currentLevel);
+                    Console.Write("{0, 0}{1, 3}  {2, 0}{3, -8} ", "Health:", enemies[x].health.currentLevel, "Mana:", enemies[x].magic.currentLevel);
                     x++;
                 }
                 Console.WriteLine();
@@ -165,6 +165,8 @@ namespace ArenaRe
             //Action Phase
             while (initiator.actions > 0)
             {
+                Console.Clear();
+                showBattleStats();
                 Console.WriteLine("It is currently " + initiator.name + "'s turn");
 
                 if (initiator != player)
@@ -176,7 +178,7 @@ namespace ArenaRe
 
                 else
                 {
-                    //Combat Description
+                    viewCombatOptions();
                 }
 
                 initiator.actions--;
@@ -209,13 +211,20 @@ namespace ArenaRe
                     break;
 
                 case 2:
-                    ActionHandler.Attack(player, selectTarget());
+                    Character t = selectTarget();
+                    if (ActionHandler.inAttackRange(player, t))
+                        ActionHandler.Attack(player, t);
+                    else
+                        goto default;
                     break;
 
                 case 3:
+                    player.addEffect(new Effect(player.defense, 10, 1));
                     break;
 
                 case 4:
+                    if(!ActionHandler.Cast(player, selectTarget()))
+                        goto default;
                     break;
 
                 default:
@@ -233,29 +242,29 @@ namespace ArenaRe
             switch (choice)
             {
                 case 1:
-                    ActionHandler.MoveForward(player);
+                    ActionHandler.MoveForward(player, arena.arenaXPlus);
                     break;
 
                 case 2:
-                    ActionHandler.MoveBackward(player);
+                    ActionHandler.MoveBackward(player, arena.arenaYMinus);
                     break;
                 case 3:
-                    ActionHandler.MoveLeft(player);
+                    ActionHandler.MoveLeft(player, arena.arenaXMinus);
                     break;
                 case 4:
-                    ActionHandler.MoveRight(player);
+                    ActionHandler.MoveRight(player, arena.arenaXPlus);
                     break;
                 case 5:
-                    ActionHandler.MoveForwardLeft(player);
+                    ActionHandler.MoveForwardLeft(player, arena.arenaXMinus, arena.arenaYPlus);
                     break;
                 case 6:
-                    ActionHandler.MoveForwardRight(player);
+                    ActionHandler.MoveForwardRight(player, arena.arenaXPlus, arena.arenaYPlus);
                     break;
                 case 7:
-                    ActionHandler.MoveBackLeft(player);
+                    ActionHandler.MoveBackLeft(player, arena.arenaXMinus, arena.arenaYMinus);
                     break;
                 case 8:
-                    ActionHandler.MoveBackRight(player);
+                    ActionHandler.MoveBackRight(player, arena.arenaXPlus, arena.arenaYMinus);
                     break;
                 case 9:
                     viewCombatOptions();
@@ -269,7 +278,7 @@ namespace ArenaRe
             string[] t = new string[characters.Count - 1];
             for (int i = 0; i < enemies.Count; i++)
             {
-                Console.WriteLine((i + 1) + enemies[i].name);
+                Console.WriteLine((i + 1) + ": " + enemies[i].name);
             }
 
             int choice = Helper.processChoice(true);
@@ -329,7 +338,7 @@ namespace ArenaRe
             List<Character> turnOrder = new List<Character>();
             turnOrder.Add(player);
             turnOrder.AddRange(enemies);
-            return (List<Character>)turnOrder.OrderBy(i => i.initiative.currentLevel);
+            return turnOrder.OrderBy(i => i.initiative.currentLevel).ToList();
         }
 
         private void battleChoice()

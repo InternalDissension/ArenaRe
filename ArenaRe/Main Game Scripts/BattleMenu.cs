@@ -14,6 +14,7 @@ namespace ArenaRe
 
         public BattleMenu(Character player)
         {
+            Console.Clear();
             this.player = player;
             while (displayMenu() != 4)
                 continue;
